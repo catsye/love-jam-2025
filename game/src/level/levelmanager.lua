@@ -79,7 +79,8 @@ local function create_goal_node(info)
     maxlength = info.maxlength,
     on_complete = info.on_complete,
     on_connect = info.on_connect,
-    on_vote = info.on_vote
+    on_vote = info.on_vote,
+    is_optional = info.is_optional
   }
 end
 
@@ -207,11 +208,17 @@ end
 function levelmanager.islevelwin()
   local foundfailuregoal = false
   for _, goal in ipairs(currentgoals) do
-    if goal.data.goal.state ~= "decided" then
-      if goal.data.goal.winner == "oppose" then
+    if not goal.data.is_optional then
+      if goal.data.goal.state ~= "decided" then
         foundfailuregoal = true
-        break
+      elseif goal.data.goal.winner == "oppose" then
+        foundfailuregoal = true
+        print("========WINNER : ", goal.data.goal.winner)
       end
+    end
+    print("WINNER : ", goal.data.goal.winner)
+    if (foundfailuregoal) then
+      break
     end
   end
   return not foundfailuregoal
@@ -223,8 +230,10 @@ function levelmanager.checklevelprogress()
     print("Level completed!")
     islevelstillinprogress = false
     if levelmanager.islevelwin() then
+      print("Level successed!")
       levelmanager.loadnextlevel()
     else
+      print("Level failed!")
       levelmanager.restartlevel()
     end
   else
@@ -243,7 +252,7 @@ function levelmanager.restartlevel()
 end
 
 function levelmanager.all_levels_completed()
-  return levelmanager.currentlevel >= #levels and levelmanager.islevelcompleted()
+  return levelmanager.currentlevel > #levels and levelmanager.islevelcompleted()
 end
 
 function levelmanager.loadnextlevel()

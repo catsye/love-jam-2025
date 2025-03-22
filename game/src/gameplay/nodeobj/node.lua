@@ -1,5 +1,6 @@
 local graph = require("src.data.graph")
 local nodeconverter = require("src.gameplay.nodeobj.nodeconverter.nodeconverter")
+local nodedisabler = require("src.gameplay.nodeobj.nodedisabler.nodedisabler")
 local sfxplayer = require("src.audio.sfxplayer")
 
 local node = {}
@@ -16,7 +17,8 @@ end
 
 node.completetion_functions = {
   convert_to = nodeconverter,
-  play_sfx = sfxplayer
+  play_sfx = sfxplayer,
+  disable_node = nodedisabler,
 }
 
 node.connect_functions = {

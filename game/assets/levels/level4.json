@@ -1,0 +1,83 @@
+{
+  "name": "Oppostion",
+  "player_location": {
+    "grid_x": 3,
+    "grid_y": 2
+  },
+  "characters": {
+    "enemy": {
+      "grid_x": 4,
+      "grid_y": 1,
+      "icon": "enemy_1",
+      "label": "ooze",
+      "maxlength": 1
+    }
+  },
+  "goals": {
+    "door": {
+      "grid_x": 4,
+      "grid_y": 2,
+      "icon": "door",
+      "label": "find exit",
+      "progress_quota": 4,
+      "on_complete": [{
+        "func": "play_sfx",
+        "args": {
+          "sound": "door"
+        }
+      }],
+      "on_connect": [{
+        "func": "play_sfx",
+        "args": {
+          "sound": "connect"
+        }
+      }],
+      "on_vote": [{
+        "func": "play_sfx",
+        "args": {
+          "sound": "progress"
+        }
+      }]
+    },
+    "heart": {
+      "grid_x": 3,
+      "grid_y": 1,
+      "icon": "heart",
+      "label": "player's heart",
+      "progress_quota": 4,
+      "is_optional": true,
+      "on_complete": [{
+        "func": "play_sfx",
+        "args": {
+          "sound": "door"
+        }
+      },
+      {
+        "func": "disable_node",
+        "args": {
+          "node": "player"
+        }
+      }],
+      "on_connect": [{
+        "func": "play_sfx",
+        "args": {
+          "sound": "connect"
+        }
+      }],
+      "on_vote": [{
+        "func": "play_sfx",
+        "args": {
+          "sound": "progress"
+        }
+      }]
+    }
+  },
+  "connections": {
+    "enemy": {
+      "side": "oppose",
+      "nodes": [
+        "door", "heart"
+      ]
+    }
+  }
+}
